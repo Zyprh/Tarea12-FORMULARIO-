@@ -1,0 +1,3 @@
+Id,FechaVenta,Nombre,FechaVencimiento,Precio,Proveedor,Categoria,Almacen,Stock,TipoProducto
+001,2024-09-10,Leche,2029-02-19,3.50,Gloria,Lacteos,A01,100,Sellado
+002,2024-09-28,Yogurt,2030-02-25,4.00,Nestle,Lacteos,B01,200,Sellado
