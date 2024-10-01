@@ -24,7 +24,7 @@
             <h2 class="h4 mb-0">Complete los datos del producto</h2>
         </div>
         <div class="card-body">
-        <form id="productoForm" class="row g-3" method="POST">
+            <form id="productoForm" class="row g-3" method="POST">
                 <div class="col-md-6">
                     <label for="campo1" class="form-label">Id</label>
                     <input type="text" class="form-control" name="campo1" required>
@@ -85,20 +85,21 @@
         </div>
         <div class="card-body">
             <table class="table table-bordered table-striped">
-            <thead>
-                <tr>
-                    <th><strong>Id</strong></th>
-                    <th><strong>Fecha Venta</strong></th>
-                    <th><strong>Nombre</strong></th>
-                    <th><strong>Fecha Vencimiento</strong></th>
-                    <th><strong>Precio</strong></th>
-                    <th><strong>Proveedor</strong></th>
-                    <th><strong>Categoría</strong></th>
-                    <th><strong>Almacén</strong></th>
-                    <th><strong>Stock</strong></th>
-                    <th><strong>Tipo Producto</strong></th>
-                </tr>
-            </thead>
+                <thead>
+                    <tr>
+                        <th><strong>Id</strong></th>
+                        <th><strong>Fecha Venta</strong></th>
+                        <th><strong>Nombre</strong></th>
+                        <th><strong>Fecha Vencimiento</strong></th>
+                        <th><strong>Precio</strong></th>
+                        <th><strong>Proveedor</strong></th>
+                        <th><strong>Categoría</strong></th>
+                        <th><strong>Almacén</strong></th>
+                        <th><strong>Stock</strong></th>
+                        <th><strong>Tipo Producto</strong></th>
+                        <th><strong>Acciones</strong></th>
+                    </tr>
+                </thead>
 
                 <tbody id="tablaContenido">
                     <!-- Aquí se agregarán dinámicamente los datos -->
@@ -108,8 +109,70 @@
     </div>
 </div>
 
+<!-- Modal para editar producto -->
+<div class="modal fade" id="editarProductoModal" tabindex="-1" aria-labelledby="editarProductoModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editarProductoModalLabel">Editar Producto</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <!-- Formulario de edición dentro del modal -->
+                <form id="editarProductoForm">
+                    <div class="mb-3">
+                        <label for="editCampo1" class="form-label">Id</label>
+                        <input type="text" class="form-control" id="editCampo1" name="campo1" readonly>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo2" class="form-label">Fecha de Venta</label>
+                        <input type="date" class="form-control" id="editCampo2" name="campo2" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo3" class="form-label">Nombre</label>
+                        <input type="text" class="form-control" id="editCampo3" name="campo3" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo4" class="form-label">Fecha de Vencimiento</label>
+                        <input type="date" class="form-control" id="editCampo4" name="campo4" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo5" class="form-label">Precio</label>
+                        <input type="number" class="form-control" id="editCampo5" name="campo5" step="0.01" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo6" class="form-label">Proveedor</label>
+                        <input type="text" class="form-control" id="editCampo6" name="campo6" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo7" class="form-label">Categoría</label>
+                        <input type="text" class="form-control" id="editCampo7" name="campo7" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo8" class="form-label">Almacén</label>
+                        <input type="text" class="form-control" id="editCampo8" name="campo8" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo9" class="form-label">Stock</label>
+                        <input type="number" class="form-control" id="editCampo9" name="campo9" required>
+                    </div>
+                    <div class="mb-3">
+                        <label for="editCampo10" class="form-label">Tipo de Producto</label>
+                        <input type="text" class="form-control" id="editCampo10" name="campo10" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" id="btnActualizar">Actualizar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
-    $(document).ready(function() {
+
+   $(document).ready(function() {
     $('#productoForm').on('submit', function(event) {
         event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
 
@@ -131,46 +194,117 @@
     });
 });
 
-        // Mostrar tabla al hacer clic en "Mostrar Tabla"
-        $('#mostrarTablaBtn').on('click', function() {
-            $.ajax({
-                url: 'leer_datos.php',
-                type: 'GET',
-                dataType: 'json',
-                success: function(datos) {
-                    $('#tablaContenido').empty();
-                    if (datos[0] && typeof datos[0] === 'string' && datos[0].includes("Error")) {
-                        alert(datos[0]);
-                        return;
-                    }
-                    var filas = '';
-                    for (var i = 0; i < datos.length; i++) {
-                        filas += '<tr>';
-                        for (var j = 0; j < datos[i].length; j++) {
-                            filas += '<td>' + datos[i][j] + '</td>';
-                        }
-                        filas += '</tr>';
-                    }
-                    $('#tablaContenido').append(filas);
-                    $('#tablaCard').show();
-                    $('#mostrarTablaBtn').hide();
-                    $('#ocultarTablaBtn').show();
-                },
-                error: function() {
-                    alert('Error al leer los datos.');
-                }
-            });
-        });
 
-        // Ocultar la tabla al hacer clic en "Ocultar Tabla"
-        $('#ocultarTablaBtn').on('click', function() {
-            $('#tablaCard').hide();
+// Función para mostrar la tabla
+function cargarTabla() {
+    $.ajax({
+        url: 'leer_datos.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(datos) {
             $('#tablaContenido').empty();
-            $('#mostrarTablaBtn').show();
-            $('#ocultarTablaBtn').hide();
+            var filas = '';
+            for (var i = 0; i < datos.length; i++) {
+                filas += '<tr>';
+                for (var j = 0; j < datos[i].length; j++) {
+                    filas += '<td>' + datos[i][j] + '</td>';
+                }
+                filas += '<td><button class="btn btn-warning btn-editar" data-id="' + datos[i][0] + '">Editar</button>';
+                filas += ' <button class="btn btn-danger btn-eliminar" data-id="' + datos[i][0] + '">Eliminar</button></td>';
+                filas += '</tr>';
+            }
+            $('#tablaContenido').append(filas);
+        },
+        error: function() {
+            alert('Error al leer los datos.');
+        }
+    });
+}
+
+// Editar producto
+$(document).on('click', '.btn-editar', function() {
+    var id = $(this).data('id');
+    $.ajax({
+        url: 'leer_datos.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function(datos) {
+            for (var i = 0; i < datos.length; i++) {
+                if (datos[i][0] == id) {
+                    // Llenar el formulario con los datos del producto
+                    $('#editCampo1').val(datos[i][0]);
+                    $('#editCampo2').val(datos[i][1]);
+                    $('#editCampo3').val(datos[i][2]);
+                    $('#editCampo4').val(datos[i][3]);
+                    $('#editCampo5').val(datos[i][4]);
+                    $('#editCampo6').val(datos[i][5]);
+                    $('#editCampo7').val(datos[i][6]);
+                    $('#editCampo8').val(datos[i][7]);
+                    $('#editCampo9').val(datos[i][8]);
+                    $('#editCampo10').val(datos[i][9]);
+
+                    // Mostrar el modal
+                    $('#editarProductoModal').modal('show');
+                    break;
+                }
+            }
+        },
+        error: function() {
+            alert('Error al leer los datos.');
+        }
+    });
+});
+
+// Manejar el botón "Actualizar" en el modal
+$('#btnActualizar').on('click', function() {
+    $.ajax({
+        url: 'actualizar_datos.php',
+        type: 'POST',
+        data: $('#editarProductoForm').serialize(),
+        success: function(response) {
+            alert(response);
+            $('#editarProductoModal').modal('hide');
+            cargarTabla();
+        },
+        error: function() {
+            alert('Error al actualizar los datos.');
+        }
+    });
+});
+
+// Eliminar producto
+$(document).on('click', '.btn-eliminar', function() {
+    var id = $(this).data('id');
+    if (confirm('¿Está seguro de que desea eliminar este producto?')) {
+        $.ajax({
+            url: 'eliminar_datos.php',
+            type: 'POST',
+            data: { id: id },
+            success: function(response) {
+                alert(response);
+                cargarTabla();
+            },
+            error: function() {
+                alert('Error al eliminar los datos.');
+            }
         });
+    }
+});
+
+// Mostrar la tabla
+$('#mostrarTablaBtn').on('click', function() {
+    $('#tablaCard').show();
+    cargarTabla();
+    $('#mostrarTablaBtn').hide();
+    $('#ocultarTablaBtn').show();
+});
+
+// Ocultar la tabla
+$('#ocultarTablaBtn').on('click', function() {
+    $('#tablaCard').hide();
+    $('#mostrarTablaBtn').show();
+    $('#ocultarTablaBtn').hide();
+});
 </script>
-
-
 </body>
 </html>
