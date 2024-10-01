@@ -30,6 +30,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $cabecera = "Id,FechaVenta,Nombre,FechaVencimiento,Precio,Proveedor,Categoria,Almacen,Stock,TipoProducto\n";
         // Escribir la cabecera
         file_put_contents($archivo, $cabecera, FILE_APPEND);
+    } else {
+        // Si el archivo existe, asegurarse de que termine con un salto de línea
+        $contenido_actual = file_get_contents($archivo);
+        if (substr($contenido_actual, -1) !== "\n") {
+            // Si el archivo no termina con un salto de línea, agregarlo
+            file_put_contents($archivo, "\n", FILE_APPEND);
+        }
     }
 
     // Agregar los datos al archivo

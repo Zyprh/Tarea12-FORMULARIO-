@@ -172,7 +172,7 @@
 
 <script>
 
-   $(document).ready(function() {
+$(document).ready(function() {
     $('#productoForm').on('submit', function(event) {
         event.preventDefault(); // Evitar el comportamiento predeterminado del formulario
 
@@ -186,6 +186,9 @@
                 
                 // Reiniciar el formulario
                 $('#productoForm')[0].reset();
+
+                // Recargar la tabla inmediatamente después de guardar los datos
+                cargarTabla(); // <-- Agregar esta línea
             },
             error: function() {
                 alert('Error al enviar los datos.');
@@ -194,8 +197,7 @@
     });
 });
 
-
-// Función para mostrar la tabla
+        // Función para mostrar la tabla
 function cargarTabla() {
     $.ajax({
         url: 'leer_datos.php',
