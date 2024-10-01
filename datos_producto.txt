@@ -1,4 +1,4 @@
 Id,FechaVenta,Nombre,FechaVencimiento,Precio,Proveedor,Categoria,Almacen,Stock,TipoProducto
 001,2024-09-10,Leche,2029-02-19,3.50,Gloria,Lacteos,A01,100,Sellado
 002,2024-09-19,Yogurt,2026-03-14,3.50,Nestle,wefedwe,B01,45,Sellado
-003,2024-09-18,Polo Revengue,2035-06-26,300,Zara,Ropa,C01,120,De segunda
+003,2024-09-27,Polo kellmat,2026-08-31,300.00,Zara,Ropa,B01,90,De segunda

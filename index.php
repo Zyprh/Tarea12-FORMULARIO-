@@ -12,6 +12,9 @@
 
     <!-- Iconos de Bootstrap -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.1/font/bootstrap-icons.min.css">
+    <!-- SweetAlert2 CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 </head>
 <body class="bg-light">
 
@@ -182,22 +185,34 @@ $(document).ready(function() {
             type: 'POST', // Cambiar a POST
             data: $('#productoForm').serialize(), // Serializa los datos del formulario
             success: function(response) {
-                alert(response); // Mostrar el mensaje de éxito del servidor
+                // Mostrar alerta de éxito con SweetAlert
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Datos guardados',
+                    text: response,
+                    confirmButtonText: 'OK'
+                });
                 
                 // Reiniciar el formulario
                 $('#productoForm')[0].reset();
 
                 // Recargar la tabla inmediatamente después de guardar los datos
-                cargarTabla(); // <-- Agregar esta línea
+                cargarTabla();
             },
             error: function() {
-                alert('Error al enviar los datos.');
+                // Mostrar alerta de error con SweetAlert
+                Swal.fire({
+                    icon: 'error',
+                    title: 'Error',
+                    text: 'Error al enviar los datos.',
+                    confirmButtonText: 'OK'
+                });
             }
         });
     });
 });
 
-        // Función para mostrar la tabla
+// Función para cargar la tabla
 function cargarTabla() {
     $.ajax({
         url: 'leer_datos.php',
@@ -218,7 +233,13 @@ function cargarTabla() {
             $('#tablaContenido').append(filas);
         },
         error: function() {
-            alert('Error al leer los datos.');
+            // Mostrar alerta de error con SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al leer los datos.',
+                confirmButtonText: 'OK'
+            });
         }
     });
 }
@@ -252,7 +273,13 @@ $(document).on('click', '.btn-editar', function() {
             }
         },
         error: function() {
-            alert('Error al leer los datos.');
+            // Mostrar alerta de error con SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al leer los datos.',
+                confirmButtonText: 'OK'
+            });
         }
     });
 });
@@ -264,12 +291,24 @@ $('#btnActualizar').on('click', function() {
         type: 'POST',
         data: $('#editarProductoForm').serialize(),
         success: function(response) {
-            alert(response);
+            // Mostrar alerta de éxito con SweetAlert
+            Swal.fire({
+                icon: 'success',
+                title: 'Producto actualizado',
+                text: response,
+                confirmButtonText: 'OK'
+            });
             $('#editarProductoModal').modal('hide');
             cargarTabla();
         },
         error: function() {
-            alert('Error al actualizar los datos.');
+            // Mostrar alerta de error con SweetAlert
+            Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Error al actualizar los datos.',
+                confirmButtonText: 'OK'
+            });
         }
     });
 });
@@ -277,20 +316,41 @@ $('#btnActualizar').on('click', function() {
 // Eliminar producto
 $(document).on('click', '.btn-eliminar', function() {
     var id = $(this).data('id');
-    if (confirm('¿Está seguro de que desea eliminar este producto?')) {
-        $.ajax({
-            url: 'eliminar_datos.php',
-            type: 'POST',
-            data: { id: id },
-            success: function(response) {
-                alert(response);
-                cargarTabla();
-            },
-            error: function() {
-                alert('Error al eliminar los datos.');
-            }
-        });
-    }
+    Swal.fire({
+        title: '¿Estás seguro?',
+        text: "No podrás revertir esta acción",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: 'eliminar_datos.php',
+                type: 'POST',
+                data: { id: id },
+                success: function(response) {
+                    // Mostrar alerta de éxito con SweetAlert
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Producto eliminado',
+                        text: response,
+                        confirmButtonText: 'OK'
+                    });
+                    cargarTabla();
+                },
+                error: function() {
+                    // Mostrar alerta de error con SweetAlert
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Error',
+                        text: 'Error al eliminar el producto.',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            });
+        }
+    });
 });
 
 // Mostrar la tabla
@@ -308,5 +368,6 @@ $('#ocultarTablaBtn').on('click', function() {
     $('#ocultarTablaBtn').hide();
 });
 </script>
+
 </body>
 </html>
