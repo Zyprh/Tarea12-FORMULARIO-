@@ -123,48 +123,51 @@
             <div class="modal-body">
                 <!-- Formulario de edición dentro del modal -->
                 <form id="editarProductoForm">
-                    <div class="mb-3">
-                        <label for="editCampo1" class="form-label">Id</label>
-                        <input type="text" class="form-control" id="editCampo1" name="campo1" readonly>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo2" class="form-label">Fecha de Venta</label>
-                        <input type="date" class="form-control" id="editCampo2" name="campo2" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo3" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="editCampo3" name="campo3" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo4" class="form-label">Fecha de Vencimiento</label>
-                        <input type="date" class="form-control" id="editCampo4" name="campo4" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo5" class="form-label">Precio</label>
-                        <input type="number" class="form-control" id="editCampo5" name="campo5" step="0.01" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo6" class="form-label">Proveedor</label>
-                        <input type="text" class="form-control" id="editCampo6" name="campo6" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo7" class="form-label">Categoría</label>
-                        <input type="text" class="form-control" id="editCampo7" name="campo7" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo8" class="form-label">Almacén</label>
-                        <input type="text" class="form-control" id="editCampo8" name="campo8" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo9" class="form-label">Stock</label>
-                        <input type="number" class="form-control" id="editCampo9" name="campo9" required>
-                    </div>
-                    <div class="mb-3">
-                        <label for="editCampo10" class="form-label">Tipo de Producto</label>
-                        <input type="text" class="form-control" id="editCampo10" name="campo10" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo1" class="form-label">Id</label>
+                            <input type="text" class="form-control" id="editCampo1" name="campo1" readonly>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo2" class="form-label">Fecha de Venta</label>
+                            <input type="date" class="form-control" id="editCampo2" name="campo2" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo3" class="form-label">Nombre</label>
+                            <input type="text" class="form-control" id="editCampo3" name="campo3" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo4" class="form-label">Fecha de Vencimiento</label>
+                            <input type="date" class="form-control" id="editCampo4" name="campo4" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo5" class="form-label">Precio</label>
+                            <input type="number" class="form-control" id="editCampo5" name="campo5" step="0.01" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo6" class="form-label">Proveedor</label>
+                            <input type="text" class="form-control" id="editCampo6" name="campo6" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo7" class="form-label">Categoría</label>
+                            <input type="text" class="form-control" id="editCampo7" name="campo7" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo8" class="form-label">Almacén</label>
+                            <input type="text" class="form-control" id="editCampo8" name="campo8" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo9" class="form-label">Stock</label>
+                            <input type="number" class="form-control" id="editCampo9" name="campo9" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="editCampo10" class="form-label">Tipo de Producto</label>
+                            <input type="text" class="form-control" id="editCampo10" name="campo10" required>
+                        </div>
                     </div>
                 </form>
             </div>
+
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" id="btnActualizar">Actualizar</button>
